@@ -33,4 +33,5 @@ public class Endereco {
 	@JoinColumn(name = "pessoa_id")
 	private Pessoa pessoaId;
 	
+	
 }
