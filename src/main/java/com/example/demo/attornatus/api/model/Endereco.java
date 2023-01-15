@@ -1,5 +1,6 @@
 package com.example.demo.attornatus.api.model;
 
+	
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +28,7 @@ public class Endereco {
 	private String cep;
 	private String numero;
 	private String cidade;
-	private boolean enderecoPrincipal;
+	private String enderecoPrincipal;
 
 	@ManyToOne
 	@JoinColumn(name = "pessoa_id")

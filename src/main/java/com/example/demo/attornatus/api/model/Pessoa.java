@@ -32,5 +32,13 @@ public class Pessoa {
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataNascimento;
 	
+	
+	@ManyToOne
+	@JoinColumn(name = "endereco_principal")
+	private Endereco enderecoPrincipal;
+	
+	
+	
+	
 
 }
