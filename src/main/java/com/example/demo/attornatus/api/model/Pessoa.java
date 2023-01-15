@@ -4,13 +4,13 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,9 +33,9 @@ public class Pessoa {
 	private LocalDate dataNascimento;
 	
 	
-	@ManyToOne
-	@JoinColumn(name = "endereco_principal")
-	private Endereco enderecoPrincipal;
+	//@ManyToOne
+	//@JoinColumn(name = "endereco_principal")
+	//private Endereco enderecoPrincipal;
 	
 	
 	
