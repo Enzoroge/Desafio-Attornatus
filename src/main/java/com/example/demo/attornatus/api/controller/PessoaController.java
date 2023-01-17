@@ -39,6 +39,7 @@ public class PessoaController {
 		return null;
 
 	}
+	
 
 	@PutMapping(value = "{id}")
 	public ResponseEntity<Pessoa> editar(@PathVariable Long id, @RequestBody Pessoa obj) {
@@ -51,5 +52,9 @@ public class PessoaController {
 		Pessoa pessoa = pessoaRepository.findById(id).orElse(null);
 		return pessoa != null ? ResponseEntity.ok(pessoa) : ResponseEntity.notFound().build();
 	}
+	
+	
+
+	
 
 }
