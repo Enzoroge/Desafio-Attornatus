@@ -3,14 +3,14 @@ package com.example.demo.attornatus.api.repositories;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.example.demo.attornatus.api.model.Endereco;
-import com.example.demo.attornatus.api.model.Pessoa;
 
-@Repository
-public interface EnderecoRepository extends JpaRepository<Endereco, Long>{
+public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
 
-	public List<Endereco> findByPessoa(Long long1);
+	@Query(value = "select * FROM endereco WHERE pessoa_id = :pessoaid", nativeQuery = true)
+	List<Endereco> buscarEnderecoPorPessoa(@Param("pessoaid") Long pessoaid);
 
 }

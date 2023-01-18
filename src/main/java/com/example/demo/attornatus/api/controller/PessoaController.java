@@ -2,6 +2,7 @@ package com.example.demo.attornatus.api.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +13,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.example.demo.attornatus.api.model.Endereco;
 import com.example.demo.attornatus.api.model.Pessoa;
 import com.example.demo.attornatus.api.repositories.PessoaRepository;
 import com.example.demo.attornatus.api.servico.PessoaService;
+
 
 @RestController
 @RequestMapping(value = "/pessoa")
@@ -53,5 +57,10 @@ public class PessoaController {
 		return ResponseEntity.ok().body(obj);
 	}
 
+	@GetMapping(value = "/{endereco}/{id}")
+	public ResponseEntity<List<Endereco>> buscarPessoasDaPessoa(@PathVariable Long id) {
+	List<Endereco> endereco = (List<Endereco>) pessoaService.findById(id).getEnderecos();
+	return ResponseEntity.ok().body(endereco);
+	}
 
 }

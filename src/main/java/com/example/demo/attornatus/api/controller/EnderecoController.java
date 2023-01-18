@@ -22,9 +22,6 @@ import com.example.demo.attornatus.api.servico.EnderecoService;
 public class EnderecoController {
 
 	@Autowired
-	private EnderecoRepository enderecoRepository;
-
-	@Autowired
 	private EnderecoService enderecoService;
 
 	@GetMapping
@@ -34,17 +31,15 @@ public class EnderecoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Endereco> criar(@RequestBody Endereco obj) {
-		obj = enderecoRepository.save(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(uri).body(obj);
+	public ResponseEntity<Endereco> criar(@RequestBody Endereco endereco) {
+		endereco = enderecoService.criar(endereco);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(endereco.getId()).toUri();
+		return ResponseEntity.created(uri).body(endereco);
 	}
 
-	
-
 	@GetMapping("/{id}")
-	public ResponseEntity<Object> buscarPeloId(@PathVariable Long id) {
-		Endereco endereco = enderecoRepository.findById(id).orElse(null);
+	public ResponseEntity<Endereco> buscarPeloId(@PathVariable Long id) {
+		Endereco endereco = enderecoService.findById(id);
 		return endereco != null ? ResponseEntity.ok(endereco) : ResponseEntity.notFound().build();
 	}
 

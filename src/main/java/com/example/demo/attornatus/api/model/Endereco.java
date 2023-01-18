@@ -1,6 +1,6 @@
 package com.example.demo.attornatus.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.io.Serializable;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,8 +14,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "endereco")
 @Getter
@@ -23,8 +23,12 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-@ToString
-public class Endereco {
+public class Endereco implements Serializable {
+
+
+
+	
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,5 +43,7 @@ public class Endereco {
 	
 	@ManyToOne
 	@JoinColumn(name = "pessoa_id")
-	private Pessoa pessoa;
+	private Pessoa pessoa = new Pessoa();
+	
+	
 }

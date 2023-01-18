@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.attornatus.api.model.Endereco;
-import com.example.demo.attornatus.api.model.Pessoa;
 import com.example.demo.attornatus.api.repositories.EnderecoRepository;
 
 @Service
@@ -22,36 +21,30 @@ public class EnderecoService {
 	}
 	
 	public Endereco findById(Long id) {
-		Optional<Endereco> obj = enderecoRepository.findById(id);
-		return obj.get();
+		Optional<Endereco> endereco = enderecoRepository.findById(id);
+		return endereco.orElse(null);
 	}
 	
 
 	public Endereco criar(Endereco endereco) {
-		return enderecoRepository.save(endereco);
-	}
-	
-	public Endereco editar(Long id, Endereco obj) {
-		Endereco entity = enderecoRepository.getReferenceById(id);
-		enderecoEditada(entity, obj);
-		return enderecoRepository.save(entity);
+				
+		if(endereco.isEnderecoPrincipal()) {
+			List<Endereco> endConsultado = enderecoRepository.buscarEnderecoPorPessoa(endereco.getPessoa().getId());
+								
+			if(!endConsultado.isEmpty()) {
+				
+				for (Endereco element : endConsultado) {
+					if(element.isEnderecoPrincipal()) {
+						Endereco endAlterado = new Endereco();
+						endAlterado = element;
+						endAlterado.setEnderecoPrincipal(false);
+						enderecoRepository.save(endAlterado);
 
-}
-
-	private void enderecoEditada(Endereco endereco, Endereco obj) {
-		endereco.setBairro(obj.getBairro());
-		endereco.setCep(obj.getCep());
-		endereco.setCidade(obj.getCidade());
-		endereco.setEnderecoPrincipal(obj.isEnderecoPrincipal());
-		endereco.setLogradouro(obj.getLogradouro());
-		endereco.getNumero();
+					}
+				}
+			}
+		}
 		
-	}
-
-	public Endereco findEnderecoPessoa(Long id) {
-		Pessoa pessoa = new Pessoa();
-		pessoa.setId(id);
-		enderecoRepository.findByPessoa(pessoa.getId());
-		return null;
+		return enderecoRepository.save(endereco);
 	}
 }
