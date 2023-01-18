@@ -1,5 +1,6 @@
 package com.example.demo.attornatus.api.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,36 +26,32 @@ public class PessoaController {
 
 	@Autowired
 	private PessoaService pessoaService;
-	
+
 	@GetMapping
-	public List<Pessoa> buscar(){
+	public List<Pessoa> listar() {
 		return pessoaRepository.findAll();
+
 	}
 
 	@PostMapping
-	public ResponseEntity<Pessoa> criar(@RequestBody Pessoa pessoa) {
-
-		Pessoa pessoaGravada = pessoaService.criar(pessoa);
-
-		return null;
-
+	public ResponseEntity<Pessoa> criar(@RequestBody Pessoa obj) {
+		obj = pessoaService.criar(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).body(obj);
 	}
+
 	
-
-	@PutMapping(value = "{id}")
-	public ResponseEntity<Pessoa> editar(@PathVariable Long id, @RequestBody Pessoa obj) {
-		obj = pessoaService.editar(id, obj);
-		return ResponseEntity.ok().body(obj);
-	}
-
 	@GetMapping("/{id}")
 	public ResponseEntity<Pessoa> buscarPeloId(@PathVariable Long id) {
 		Pessoa pessoa = pessoaRepository.findById(id).orElse(null);
 		return pessoa != null ? ResponseEntity.ok(pessoa) : ResponseEntity.notFound().build();
 	}
 	
-	
+	@PutMapping(value = "{id}")
+	public ResponseEntity<Pessoa> editar(@PathVariable Long id, @RequestBody Pessoa obj) {
+		obj = pessoaService.editar(id, obj);
+		return ResponseEntity.ok().body(obj);
+	}
 
-	
 
 }
